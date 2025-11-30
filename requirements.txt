@@ -1,0 +1,5 @@
+google-generativeai
+python-dotenv
+Jinja2
+premailer
+markdown2

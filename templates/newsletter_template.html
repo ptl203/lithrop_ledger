@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lithrop Ledger</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .section-break {
+            background-color: #f4f4f4;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>The Lithrop Ledger</h1>
+    </div>
+    {% for section, content in news_data.items() %}
+    <div class="card">
+        <h2>{{ section }}</h2>
+        {{ content|markdown }}
+    </div>
+    {% endfor %}
+</body>
+</html>
