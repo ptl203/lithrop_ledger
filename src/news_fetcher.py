@@ -1,4 +1,5 @@
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 import time
 
 class NewsFetcher:
@@ -9,19 +10,28 @@ class NewsFetcher:
         """
         Initializes the Gemini client with the provided API key.
         """
-        genai.configure(api_key=api_key)
-        #self.model = genai.GenerativeModel('gemini-3.0-pro')
-        self.model = genai.GenerativeModel('gemini-pro-latest')
+        self.client = genai.Client(api_key=api_key)
 
     def get_daily_news(self, prompt, retries=3, delay=2):
         """
-        Sends a precisely engineered prompt to the `gemini-3.0-pro` model.
+        Sends a precisely engineered prompt to the model.
         Implements a retry mechanism with exponential backoff to handle transient API errors.
         Returns the raw news content, expected to be in Markdown format, upon a successful API response.
         """
+        grounding_tool = types.Tool(
+            google_search=types.GoogleSearch()
+        )
+        config = types.GenerateContentConfig(
+            tools=[grounding_tool]
+        )
+
         for i in range(retries):
             try:
-                response = self.model.generate_content(prompt)
+                response = self.client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=prompt,
+                    config=config
+                )
                 return response.text
             except Exception as e:
                 print(f"Error fetching news from Gemini: {e}")

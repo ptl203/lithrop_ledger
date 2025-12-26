@@ -33,6 +33,7 @@ The application will be segmented into three primary Python modules, each with a
   - `__init__(self, api_key)`: Initializes the Gemini client with the provided API key.
   - `get_daily_news(self, prompt)`:
     - Sends a precisely engineered prompt to the `gemini-3.0-pro` model.
+    - **Grounding:** To ensure the generated content is up-to-date and based on real-time information, this function will enable the Google Search grounding feature of the Gemini API. This is accomplished by configuring the model with the `google_search_retrieval` tool. The model will use Google Search to find current data to inform its response, directly addressing the issue of knowledge cutoffs.
     - Implements a retry mechanism with exponential backoff to handle transient API errors.
     - Returns the raw news content, expected to be in Markdown format, upon a successful API response.
 
