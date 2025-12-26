@@ -11,7 +11,7 @@ class NewsFetcher:
         """
         genai.configure(api_key=api_key)
         #self.model = genai.GenerativeModel('gemini-3.0-pro')
-        self.model = genai.GenerativeModel('gemini-pro-latest')
+        self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     def get_daily_news(self, prompt, retries=3, delay=2):
         """
