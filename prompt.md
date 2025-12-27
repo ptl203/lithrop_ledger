@@ -1,6 +1,6 @@
 Generate a newsletter for today's news titled "Lithrop Ledger".
 Market Data
-Under the main title, list the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury, and Bitcoin.
+Under the main title, list the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury, and Bitcoin. If the market is closed on the day, briefly state it is closed
 Sports Check
 Check if the New York Rangers play today. If they do, list the opponent and the game time. If not, state what day, month, and year they play next.
 News Topics
