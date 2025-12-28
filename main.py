@@ -24,12 +24,14 @@ def main():
     gemini_key = os.getenv("GEMINI_API_KEY")
     app_password = os.getenv("EMAIL_APP_PASSWORD")
     smtp_username = os.getenv("SMTP_USERNAME")
-    recipient_email = os.getenv("RECIPIENT_EMAIL")
+    recipient_emails_str = os.getenv("RECIPIENT_EMAIL")
     test_mode = os.getenv("TEST_MODE")
 
-    if not all([gemini_key, app_password, smtp_username, recipient_email]):
+    if not all([gemini_key, app_password, smtp_username, recipient_emails_str]):
         logging.error("One or more environment variables are not set. Exiting.")
         return
+
+    recipient_emails = [email.strip() for email in recipient_emails_str.split(',')]
 
     news_markdown = None
     if test_mode == 'True':
@@ -77,7 +79,7 @@ def main():
     
     dispatcher = EmailDispatcher(smtp_host='smtp.gmail.com', smtp_port=587, 
                                  username=smtp_username, password=app_password)
-    dispatcher.send_email(to_email=recipient_email, subject=subject, html_content=html_newsletter)
+    dispatcher.send_email(to_emails=recipient_emails, subject=subject, html_content=html_newsletter)
     logging.info("Email dispatch process finished.")
 
 

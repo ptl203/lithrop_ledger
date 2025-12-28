@@ -80,7 +80,7 @@ The application operates in a simple, linear workflow:
     *   `GEMINI_API_KEY`: Your API key for the Google Gemini service.
     *   `EMAIL_APP_PASSWORD`: An application-specific password for your email account if using 2-Factor Authentication (e.g., for Gmail).
     *   `SMTP_USERNAME`: The email address you are sending from.
-    *   `RECIPIENT_EMAIL`: The email address you are sending to.
+    *   `RECIPIENT_EMAIL`: The email address(es) you are sending to. Multiple recipients can be specified by separating them with commas (e.g., "recipient1@example.com,recipient2@example.com").
 
 5.  **Run the Application**
     ```bash
