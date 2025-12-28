@@ -10,8 +10,10 @@ def main():
     """
     Main function to orchestrate the newsletter generation and sending process.
     """
-    # Setup logging
-    log_file = os.path.join('logs', 'automation.log')
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_dir = os.path.join(script_dir, 'logs')
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, 'automation.log')
     logging.basicConfig(filename=log_file, level=logging.INFO,
                         format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -34,7 +36,8 @@ def main():
         logging.info("Running in Test Mode. Using mock news.")
         print("Running in Test Mode. Using mock news.")
         try:
-            with open('templates/mock_news.md', 'r') as f:
+            mock_news_path = os.path.join(script_dir, 'templates', 'mock_news.md')
+            with open(mock_news_path, 'r') as f:
                 news_markdown = f.read()
             logging.info("Successfully loaded mock news from templates/mock_news.md.")
         except FileNotFoundError:
@@ -43,7 +46,8 @@ def main():
     else:
         # Read the prompt
         try:
-            with open('prompt.md', 'r') as f:
+            prompt_path = os.path.join(script_dir, 'prompt.md')
+            with open(prompt_path, 'r') as f:
                 prompt_content = f.read()
             logging.info("Successfully loaded prompt from prompt.md.")
         except FileNotFoundError:
@@ -62,7 +66,8 @@ def main():
     print(f"News content from LLM:\n{news_markdown}")
 
     # Format newsletter
-    formatter = HTMLFormatter(template_dir='templates', template_name='newsletter_template.html')
+    template_dir = os.path.join(script_dir, 'templates')
+    formatter = HTMLFormatter(template_dir=template_dir, template_name='newsletter_template.html')
     html_newsletter = formatter.format_newsletter(news_markdown)
     logging.info("Successfully formatted newsletter.")
 

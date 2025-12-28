@@ -24,7 +24,7 @@ First, you need to identify the absolute paths to your project directory and the
 
 ### Step 2: Convert 09:00 PT to Your System's Timezone
 
-`cron` uses the system's local timezone. You need to convert 09:00 PT to the timezone your server is running in. Let's assume your server is running on UTC. 09:00 PT is 17:00 UTC (during daylight saving) or 16:00 UTC (during standard time). You should configure the cron job to run at the correct UTC time. For this example, we will use 17:00 UTC, which corresponds to 09:00 PDT.
+`cron` uses the system's local timezone. You need to convert 09:00 PT to the timezone your server is running in. For example, if your server is set to UTC, 09:00 AM PT (assuming Pacific Daylight Time, UTC-7) is 16:00 UTC. You should configure the cron job to run at the correct UTC time that corresponds to 09:00 AM in the Pacific Timezone. For this example, we will use 16:00 UTC, which corresponds to 09:00 AM PDT.
 
 ### Step 3: Edit the Crontab
 
@@ -41,7 +41,7 @@ This will open the crontab file in your default text editor.
 Add the following line to the end of your crontab file. This line schedules the execution of the `main.py` script.
 
 ```cron
-0 17 * * * /home/paul/lithrop_ledger/LL_env/bin/python /home/paul/lithrop_ledger/main.py >> /home/paul/lithrop_ledger/logs/cron.log 2>&1
+0 16 * * * /home/paul/lithrop_ledger/LL_env/bin/python /home/paul/lithrop_ledger/main.py >> /home/paul/lithrop_ledger/logs/cron.log 2>&1
 ```
 
 ### Cron Job Breakdown:
