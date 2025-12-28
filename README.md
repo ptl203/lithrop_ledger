@@ -1,8 +1,23 @@
 # Lithrop Ledger: Automated AI-Powered Newsletter
 
+## Project Status
+
+This project is complete. The application is fully functional and meets all the requirements outlined in the initial design.
+
 ## Project Overview
 
 The Lithrop Ledger is a Python-based application that automates the generation and distribution of a daily news-summary email. It leverages a Large Language Model (LLM) to generate up-to-date content on a variety of topics, formats it into a professional HTML newsletter, and dispatches it to a recipient list. This project demonstrates skills in API integration, text processing, email automation, and modular application design.
+
+## How it Works
+
+The application operates in a simple, linear workflow:
+
+1.  **Initialization:** The `main.py` script is executed. It loads environment variables from the `.env` file, including API keys and email credentials.
+2.  **Content Fetching:**
+    *   If `TEST_MODE` is `False`, the `NewsFetcher` module sends a detailed prompt from `prompt.md` to the Google Gemini API. The API returns a news summary in Markdown format.
+    *   If `TEST_MODE` is `True`, the application skips the API call and uses mock data from `templates/mock_news.md`.
+3.  **HTML Formatting:** The `HTMLFormatter` module takes the Markdown content, parses it into a structured dictionary, and injects it into the `newsletter_template.html` Jinja2 template. The `premailer` library is then used to inline all CSS for maximum email client compatibility.
+4.  **Email Dispatch:** The `EmailDispatcher` module establishes a secure connection to an SMTP server and sends the final HTML newsletter to the configured recipient.
 
 ## Features
 
@@ -66,16 +81,42 @@ The Lithrop Ledger is a Python-based application that automates the generation a
     *   `EMAIL_APP_PASSWORD`: An application-specific password for your email account if using 2-Factor Authentication (e.g., for Gmail).
     *   `SMTP_USERNAME`: The email address you are sending from.
     *   `RECIPIENT_EMAIL`: The email address you are sending to.
-    *   `TEST_MODE`: Set to `True` to use mock data, or `False` to generate live news.
 
-5.  **Customize the Prompt (Optional)**
-    Edit the `prompt.md` file to change the instructions for the content, tone, and structure of the generated newsletter.
-
-6.  **Run the Application**
+5.  **Run the Application**
     ```bash
     python3 main.py
     ```
     The script will execute, generate the newsletter, and send the email. Logs are stored in the `logs/` directory.
+
+## Customization
+
+### Prompt Engineering
+
+The heart of the content generation lies in the `prompt.md` file. This file contains a detailed set of instructions that the Gemini LLM uses to generate the newsletter. You can customize the following aspects:
+
+*   **Topics:** Add, remove, or change the news topics.
+*   **Tone and Style:** Modify the instructions to change the writing style (e.g., more formal, more casual).
+*   **Content:** Change the number of stories per topic, the length of the stories, etc.
+
+### Testing
+
+To test the application without using the Gemini API, you can enable test mode. This is useful for testing changes to the HTML template or the email sending logic.
+
+To enable test mode, set the `TEST_MODE` variable in your `.env` file to `True`:
+
+```ini
+# .env
+TEST_MODE=True
+```
+
+When test mode is enabled, the application will use the content from `templates/mock_news.md` instead of calling the Gemini API.
+
+## Future Improvements
+
+*   **Add more news sources:** The current implementation uses the Gemini API's knowledge base. Future versions could integrate with other news APIs to provide a wider range of sources.
+*   **User-specific content:** The newsletter could be customized for each recipient based on their interests.
+*   **Web interface:** A web interface could be built to allow users to subscribe, unsubscribe, and manage their preferences.
+*   **More sophisticated scheduling:** The application could be integrated with a more robust scheduling system like Celery or APScheduler.
 
 ## Project Structure
 
