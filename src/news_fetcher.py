@@ -1,6 +1,7 @@
 from google import genai
 from google.genai import types
 import time
+import datetime
 
 class NewsFetcher:
     """
@@ -16,21 +17,26 @@ class NewsFetcher:
         """
         Sends a precisely engineered prompt to the model.
         Implements a retry mechanism with exponential backoff to handle transient API errors.
-        Returns the raw news content, expected to be in Markdown format, upon a successful API response.
+        Returns the raw news content in JSON format.
         """
         grounding_tool = types.Tool(
             google_search=types.GoogleSearch()
         )
+        
+        # Inject today's date for context
+        today = datetime.datetime.now().strftime("%B %d, %Y")
+        prompt_with_date = prompt.replace("{{date}}", today)
+
         config = types.GenerateContentConfig(
-            tools=[grounding_tool]
+            tools=[grounding_tool],
+            response_mime_type="application/json"
         )
 
         for i in range(retries):
             try:
                 response = self.client.models.generate_content(
-                    model="gemini-2.5-flash",
-                    #model="gemini-3-pro-preview",
-                    contents=prompt,
+                    model="gemini-3-pro-preview", # Flash is faster and good for structured data
+                    contents=prompt_with_date,
                     config=config
                 )
                 return response.text

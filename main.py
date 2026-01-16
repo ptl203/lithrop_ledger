@@ -20,7 +20,7 @@ def main():
     logging.info("Starting newsletter generation process...")
 
     # Load environment variables
-    load_dotenv(override=True)
+    load_dotenv()
     gemini_key = os.getenv("GEMINI_API_KEY")
     app_password = os.getenv("EMAIL_APP_PASSWORD")
     smtp_username = os.getenv("SMTP_USERNAME")
