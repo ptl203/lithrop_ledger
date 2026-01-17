@@ -1,27 +1,57 @@
 Generate a newsletter for today's news titled "Lithrop Ledger".
-Market Data
-Under the main title, list the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury, and Bitcoin. If the market is closed on the day, briefly state it is closed
-Sports Check
-Check if the New York Rangers play today. If they do, list the opponent and the game time. If not, state what day, month, and year they play next.
-News Topics
-Create a distinct section for each of the following topics. Use the Topic Name as the header. For each topic, select the top 5 stories.
+Current Date: {{date}}
 
-CRITICAL CONSTRAINT: All news stories must be from Today or Yesterday ONLY. Do not use older stories.
-CRITICAL CONSTRAINT: Do NOT include any URLs or links at the end of the stories.
-Each story must be described in 3-4 sentences and be strictly fact-based (no opinions).
-World News: Select and write these stories with the gravity and strategic depth of a Presidential Daily Briefing, but do not address me as "Mr. President" or use salutations. Focus on high-level geopolitical developments.
-US News: Select and write these stories for a highly informed US voter. Focus on legislation, election updates, and major domestic events.
-Finance News: Select and write these stories for a Finance Executive preparing for a TV appearance. Focus on earnings, market movers, and economic indicators.
-Technology Business News: Select and write these stories for a Tech Investor. Focus exclusively on Artificial Intelligence, Cloud Computing, Quantum Computing, and enterprise tech trends.
-Uplifting News
-Create a final section for a single Uplifting News story that is fun and positive.
+You must return a valid JSON object. Do not include markdown formatting (like ```json).
 
-Strictly exclude any stories related to politics, finance, technology, or public figures associated with those fields. Focus on animals, nature, or local community heroes.
-Use the same description format as the sections above (no links).
-Formatting Constraints:
+The JSON object must have this exact structure:
+{
+  "market_data": "String summary of market data...",
+  "sports_check": "String summary of sports check...",
+  "sections": [
+    {
+      "title": "World News",
+      "stories": [
+        "Story 1...",
+        "Story 2..."
+      ]
+    },
+    ... (other sections: US News, Finance News, Technology Business News)
+  ],
+  "uplifting_news": "String containing the uplifting story..."
+}
 
-NO italics. Do not include persona subtitles (e.g., do not write "From the desk of...").
-Do not refer to me or the reader in the text.
-Use Bold for headlines.
-STRICT CONSTRAINT: Do not include any videos, images, summaries, or closing remarks.
-STOP CONDITION: Terminate the output immediately after the Uplifting News story.
+# Instructions for Content
+
+## Market Data
+List the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury, and Bitcoin.
+If the market is closed, state it.
+
+## Sports Check
+Check the following for the New York Rangers:
+- **Next Game**: Check if they play today ({{date}}). Reference scheduled time and opponent. If NO game today, list the next game date/time/opponent.
+- **Last Game**: Provide the score and opponent of their most recent game.
+- **Team News**: Brief summary of any recent major news (injuries, trades, streaks).
+- **Standings**: Current position and points in the Metropolitan Division.
+
+## News Sections
+For each section below, provide **4-5 stories**. This is a strict requirement.
+- **World News**: Startling geopolitical developments. High gravity.
+- **US News**: Legislation, elections, major domestic events for an informed voter.
+- **Finance News**: Deep dive for executives. Earnings, movers, economic indicators.
+- **Technology Business News**: AI, Cloud, Quantum, Enterprise. No consumer gadgets.
+
+**Constraints for News Stories:**
+- **CRITICAL**: Use the Google Search tool to ensure ALL stories are from **{{date}}** or yesterday.
+- **Quantity**: You MUST provide 4 to 5 distinct stories for each section. Do not stop at 1 or 2.
+- **NO LINKS**: Do not include URLs.
+- **Detail Level**: 4-6 sentences per story.
+- **Specifics Required**: You must include specific names of people/countries involved, specific numbers/stats (if applicable), and a brief mention of the reaction or impact. Avoid vague summaries.
+
+## Uplifting News
+A single positive story (animals, nature, local heroes). No politics/finance/tech/public figures. Include specific names and location.
+
+# FORMATTING
+- Return RAW JSON.
+- No Markdown blocks.
+- No "From the desk of..." or other filler.
+

@@ -2,6 +2,7 @@ from jinja2 import Environment, FileSystemLoader
 from premailer import transform
 import markdown2
 import re
+import json
 
 class HTMLFormatter:
     """
@@ -21,47 +22,40 @@ class HTMLFormatter:
 
         self.template = self.env.get_template(template_name)
 
-    def _parse_news_data(self, markdown_content):
+    def _parse_news_data(self, json_content):
         """
-        Parses the Markdown content into a structured Python object (a dictionary of news sections).
+        Parses the JSON content into a structured Python object.
         """
-        if not markdown_content:
+        if not json_content:
+            return {}
+
+        try:
+            data = json.loads(json_content)
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
             return {}
 
         news_data = {}
-        # The regex looks for sections starting with a markdown header (##)
-        sections = re.split(r'\n## ', markdown_content)
         
-        # Process the intro section (everything before the first ##)
-        if sections:
-            intro_content = sections.pop(0)
-            
-            # Find the start of the sports check
-            sports_check_start = intro_content.find('**Sports Check**')
-            
-            # Everything before sports check (that's not the main title) is market data
-            market_data_raw = intro_content[:sports_check_start if sports_check_start != -1 else len(intro_content)].strip()
-            # Remove the "# **Lithrop Ledger**" title
-            market_data = re.sub(r'^#\s*\*?Lithrop Ledger\*?\s*\n*', '', market_data_raw, flags=re.IGNORECASE).strip()
-            if market_data:
-                news_data['Market Update'] = market_data
+        # Map JSON fields to human-readable titles for the template
+        if 'market_data' in data:
+            news_data['Market Update'] = data['market_data']
+        
+        if 'sports_check' in data:
+            news_data['Sports Check'] = data['sports_check']
 
-            # Everything from sports check onwards is sports data
-            if sports_check_start != -1:
-                sports_data_raw = intro_content[sports_check_start:]
-                # Remove the title
-                sports_data = sports_data_raw.replace('**Sports Check**', '').strip()
-                news_data['Sports Check'] = sports_data
-
-        # Process the rest of the sections
-        for section_content in sections:
-            # The section title is the first line
-            title_match = re.match(r'(.+)', section_content)
-            if title_match:
-                title = title_match.group(1).strip().replace('*', '')
-                # The content is everything after the title
-                content = section_content[len(title_match.group(1)):].strip()
+        if 'sections' in data:
+            for section in data['sections']:
+                title = section.get('title', 'News')
+                # Join stories with newlines for markdown processing in the template
+                stories = section.get('stories', [])
+                # Create a markdown list
+                content = "\n".join([f"* {story}" for story in stories])
                 news_data[title] = content
+
+        if 'uplifting_news' in data:
+            news_data['Uplifting News'] = data['uplifting_news']
+            
         return news_data
 
 
