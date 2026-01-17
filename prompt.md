@@ -27,9 +27,11 @@ List the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury,
 If the market is closed, state it.
 
 ## Sports Check
-Check if the New York Rangers play today ({{date}}).
-- If YES: List opponent and game time.
-- If NO: List the next game date/time/opponent.
+Check the following for the New York Rangers:
+- **Next Game**: Check if they play today ({{date}}). Reference scheduled time and opponent. If NO game today, list the next game date/time/opponent.
+- **Last Game**: Provide the score and opponent of their most recent game.
+- **Team News**: Brief summary of any recent major news (injuries, trades, streaks).
+- **Standings**: Current position and points in the Metropolitan Division.
 
 ## News Sections
 For each section below, provide **4-5 stories**. This is a strict requirement.
