@@ -27,11 +27,21 @@ List the daily percentage change for the S&P 500, NASDAQ, DOW, 10-Year Treasury,
 If the market is closed, state it.
 
 ## Sports Check
-Check the following for the New York Rangers:
+Check the following for these teams:
+
+**New York Rangers**:
 - **Next Game**: Check if they play today ({{date}}). Reference scheduled time and opponent. If NO game today, list the next game date/time/opponent.
 - **Last Game**: Provide the score and opponent of their most recent game.
 - **Team News**: Brief summary of any recent major news (injuries, trades, streaks).
 - **Standings**: Current position and points in the Metropolitan Division.
+
+**New York Giants**:
+- **News**: Recent team news.
+- **Game Info**: Next scheduled game or recent result.
+
+**Syracuse University Athletics (Lacrosse, Basketball, Football)**:
+- **News**: Recent news updates.
+- **Game Times**: Upcoming scheduled games.
 
 ## News Sections
 For each section below, provide **4-5 stories**. This is a strict requirement.
